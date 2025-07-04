@@ -1,29 +1,46 @@
 import React from "react";
-import { Star } from "lucide-react";
+import { useState, useEffect } from "react";
+import VideoCard from "./VideoCard";
+import { Link } from "react-router";
 
-const Card = () => {
+const Card = ({endpoint, name}) => {
+  const [dataVideos, setdataVideos] = useState([]);
+
+  const fetchVideos = async () => {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/${endpoint}?api_key=c447267133c687f2505ab84cf9e53056`
+    );
+
+    const data = await response.json();
+    console.log(data.results);
+    setdataVideos(data.results);
+  };
+
+  useEffect(() => {
+    fetchVideos();
+  }, []);
+
   return (
-    <div>
-      <div className="flex justify-between items-center px-8">
-        <h1 className="text-xl font-semibold">Popular Movies</h1>
-        <span className="hover:underline cursor-pointer">Explore More</span>
+    <div className="w-full h-[450px] px-8">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl text-white mt-2">{name}</h1>
+        <p className="text-base hover:underline text-gray-400 mt-2 cursor-pointer">Explore More</p>
       </div>
-      <img
-        src="https://movies-proxy.vercel.app/ipx/f_webp&s_800x1200/tmdb/xUkUZ8eOnrOnnJAfusZUqKYZiDu.jpg"
-        alt=""
-        className="h-[250px] object-contain cursor-pointer ml-8"
-      />
-      <p className="ml-8">A Working Man</p>
-      <div className="flex items-center mb-2 text-[#00AD99] ml-8">
-        <Star className="fill-[#00AD99] w-4 h-4" />
-        <Star className="fill-[#00AD99] w-4 h-4" />
-        <Star className="fill-[#00AD99] w-4 h-4" />
-        <Star className="w-4 h-4" />
-        <Star className="w-4 h-4" />
-        <span className="ml-2 text-gray-300 ">6.2</span>
+      {/* Cards Container */}
+      <div className="flex flex-row overflow-x-auto gap-4 mt-4">
+        {dataVideos.map((item,index) => (
+          
+           <VideoCard key={index} item={item} />
+          
+        ))}
+        
       </div>
+
+        
+
     </div>
   );
 };
 
 export default Card;
+
