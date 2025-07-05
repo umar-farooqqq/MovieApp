@@ -7,6 +7,9 @@ import Footer from "../components/Footer.jsx";
 
 const Home = () => {
   return (
+
+    // {Main Home Page}
+
     <div>
       <div className="lg:w-full flex flex-row min-h-screen bg-gray-600 ">
         <Sidebar />
